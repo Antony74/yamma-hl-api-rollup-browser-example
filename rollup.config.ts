@@ -25,7 +25,7 @@ const emptyReplacements = [
 
 const transpileTypescript = {
     name: 'transpile-typescript',
-    transform(code, id) {
+    transform(code: string, id: string) {
         if (!id.endsWith('.ts')) {
             return null;
         }
@@ -38,12 +38,13 @@ const transpileTypescript = {
                 target: ts.ScriptTarget.ES2022,
             },
         });
-        const errors = result.diagnostics.filter(
+
+        const errors = (result.diagnostics ?? []).filter(
             (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error,
         );
 
         if (errors.length > 0) {
-            this.error(
+            console.error(
                 ts.formatDiagnostics(errors, {
                     getCurrentDirectory: () => process.cwd(),
                     getCanonicalFileName: (fileName) => fileName,

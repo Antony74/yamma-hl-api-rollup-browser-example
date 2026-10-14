@@ -2,7 +2,7 @@
     "name": "yamma-hl-api-rollup-browser-example",
     "version": "1.0.0",
     "scripts": {
-        "start": "rimraf dist && rollup --config --watch"
+        "start": "rimraf dist && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --watch"
     },
     "author": "Antony74",
     "license": "CC0-1.0",
