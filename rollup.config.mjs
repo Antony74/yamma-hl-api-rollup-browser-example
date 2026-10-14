@@ -7,7 +7,7 @@ import serve from 'rollup-plugin-serve';
 import alias from '@rollup/plugin-alias';
 import inject from '@rollup/plugin-inject';
 
-const replacement = path.resolve('src/empty.js');
+const replacement = path.resolve('src/polyfills/empty.js');
 
 const emptyReplacements = [
     'util',
@@ -38,6 +38,10 @@ export default {
                     find: 'buffer',
                     replacement: path.resolve('node_modules/buffer/index.js'),
                 },
+                {
+                    find: 'process',
+                    replacement: path.resolve('src/polyfills/process.js'),
+                },
                 ...emptyReplacements,
             ],
         }),
@@ -45,6 +49,7 @@ export default {
         commonjs(),
         inject({
             Buffer: ['buffer', 'Buffer'],
+            process: ['process', 'default'],
         }),
         typescript(),
         copy({
