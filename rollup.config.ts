@@ -1,3 +1,4 @@
+import { type PluginContext } from 'rollup';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -15,6 +16,11 @@ export default {
         }),
         commonjs(),
         typescript(),
+        {
+            buildStart: function (this: PluginContext) {
+                this.addWatchFile('src/index.html');
+            },
+        },
         copy({
             outputFolder: 'dist',
             targets: [

@@ -7,7 +7,7 @@
         <link rel="icon" href="data:;base64,=" />
         <link rel="stylesheet" href="gh-fork-ribbon.css" />
         <style>
-            #editor {
+            textarea {
                 width: 640px;
                 height: 200px;
             }
@@ -31,6 +31,8 @@
                 spellcheck="false"
             ></textarea>
         </p>
+        <p><button id="parseButton">Parse</button></p>
+        <p id="parseOutput"></p>
         <p>
             <textarea
                 id="mmpEditor"
@@ -38,8 +40,8 @@
                 spellcheck="false"
             ></textarea>
         </p>
-        <p><button id="unify">Unify</button></p>
-        <p id="output"></p>
+        <p><button id="unifyButton">Unify</button></p>
+        <p id="unifierOutput"></p>
         <script type="module" src="index.js"></script>
     </body>
 </html>
