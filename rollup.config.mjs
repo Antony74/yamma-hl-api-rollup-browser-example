@@ -19,6 +19,8 @@ export default {
             outputFolder: 'dist',
             targets: [
                 'src/index.html',
+                'src/example.mm',
+                'src/ununified.mmp',
                 'node_modules/github-fork-ribbon-css/gh-fork-ribbon.css',
             ],
         }),

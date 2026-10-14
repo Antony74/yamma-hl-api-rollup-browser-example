@@ -9,7 +9,7 @@
         <style>
             #editor {
                 width: 640px;
-                height: 480px;
+                height: 200px;
             }
         </style>
     </head>
@@ -26,12 +26,19 @@
         <h1>yamma-hl-api rollup browser example</h1>
         <p>
             <textarea
-                id="editor"
+                id="mmEditor"
                 aria-label="MM Editor"
                 spellcheck="false"
             ></textarea>
         </p>
-        <p><button id="validate">Validate</button></p>
+        <p>
+            <textarea
+                id="mmpEditor"
+                aria-label="MMP Editor"
+                spellcheck="false"
+            ></textarea>
+        </p>
+        <p><button id="unify">Unify</button></p>
         <p id="output"></p>
         <script type="module" src="index.js"></script>
     </body>
