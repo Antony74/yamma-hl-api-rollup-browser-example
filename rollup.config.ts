@@ -1,27 +1,9 @@
-import path from 'path';
 import ts from 'typescript';
 import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
 import serve from 'rollup-plugin-serve';
-import alias from '@rollup/plugin-alias';
-import inject from '@rollup/plugin-inject';
-
-const replacement = path.resolve('src/polyfills/empty.js');
-
-const emptyReplacements = [
-    'util',
-    'path',
-    'os',
-    'crypto',
-    'net',
-    'url',
-    'fs',
-    'child_process',
-    'readline',
-].map((find) => {
-    return { find, replacement };
-});
 
 const transpileTypescript = {
     name: 'transpile-typescript',
@@ -64,38 +46,6 @@ export default {
         dir: 'dist',
     },
     plugins: [
-        alias({
-            entries: [
-                {
-                    find: 'yamma-hl-api',
-                    replacement: path.resolve(
-                        'node_modules/yamma-hl-api/src/index.ts',
-                    ),
-                },
-                {
-                    find: 'buffer',
-                    replacement: path.resolve('node_modules/buffer/index.js'),
-                },
-                {
-                    find: 'worker_threads',
-                    replacement: path.resolve(
-                        'src/polyfills/worker-threads.js',
-                    ),
-                },
-                ...['events', 'stream'].map((find) => {
-                    return {
-                        find,
-                        replacement: path.resolve(
-                            'node_modules/events/events.js',
-                        ),
-                    };
-                }),
-                ...emptyReplacements,
-            ],
-        }),
-        inject({
-            Buffer: ['buffer', 'Buffer'],
-        }),
         transpileTypescript,
         resolve({
             browser: true,
