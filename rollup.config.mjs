@@ -1,0 +1,27 @@
+import path from 'path';
+
+import copy from 'rollup-plugin-copy';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import serve from 'rollup-plugin-serve';
+
+export default {
+    input: 'src/index.ts',
+    output: {
+        dir: 'dist',
+    },
+    plugins: [
+        resolve(),
+        commonjs(),
+        typescript(),
+        copy({
+            outputFolder: 'dist',
+            targets: [
+                'src/index.html',
+                'node_modules/github-fork-ribbon-css/gh-fork-ribbon.css',
+            ],
+        }),
+        serve('dist'),
+    ],
+};
