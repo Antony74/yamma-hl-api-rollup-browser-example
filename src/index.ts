@@ -18,15 +18,15 @@ if (
     unifyButton &&
     unifierOutput
 ) {
-    const config: UnifierConfig = {};
+    const config: UnifierConfig = { mm: { singleThread: true } };
 
     let lastMM = '';
-    let unifier = createUnifier(lastMM, config);
+    // let unifier = createUnifier(lastMM, config);
 
     const parse = () => {
         if (mmEditor.value !== lastMM) {
             lastMM = mmEditor.value;
-            unifier = createUnifier(lastMM, config);
+            // unifier = createUnifier(lastMM, config);
         }
     };
 
@@ -43,7 +43,7 @@ if (
     unifyButton.onclick = async () => {
         try {
             parse();
-            await unifier.unify(mmpEditor.value);
+            // await unifier.unify(mmpEditor.value);
             unifierOutput.textContent = 'Validated OK';
         } catch (e) {
             if (e instanceof Error) {
