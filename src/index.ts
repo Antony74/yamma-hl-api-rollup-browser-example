@@ -1,4 +1,4 @@
-import { createUnifier, type UnifierConfig } from 'yamma-hl-api';
+import { createUnifier, parseMmp, type UnifierConfig } from 'yamma-hl-api';
 import { getElementById } from './getElementById';
 
 const { mmEditor } = getElementById('mmEditor', 'TEXTAREA');
@@ -42,8 +42,13 @@ unifyButton.onclick = async () => {
     try {
         parse();
         const result = await unifier.unify(mmpEditor.value);
+        mmpEditor.value = result.text;
+
+        // Re-parse the mmp file because we need the diagnostics from after unification rather than before
+        const mmpParser = parseMmp(result.text, unifier.mmParser);
+
         unifierOutput.textContent = JSON.stringify(
-            result.mmpUnifier.mmpParser.diagnostics,
+            mmpParser.diagnostics,
             null,
             4,
         );
