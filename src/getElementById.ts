@@ -1,4 +1,4 @@
-// getElementById wrapper, with types and exceptions
+// getElementById wrapper, with types and exceptions (including a return type to keep variable names in sync ids)
 
 export function getElementById <K extends string>(id: K): Record<K, HTMLElement>;
 export function getElementById <K extends string>(id: K, nodeName: 'TEXTAREA'): Record<K, HTMLTextAreaElement>;
