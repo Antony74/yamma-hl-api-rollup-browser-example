@@ -6,10 +6,15 @@
         <title>yamma-hl-api rollup browser example</title>
         <link rel="icon" href="data:;base64,=" />
         <link rel="stylesheet" href="gh-fork-ribbon.css" />
+        <script type="module" src="index.js"></script>
         <style>
+            .section {
+                padding-bottom: 20px;
+            }
+
             textarea {
                 width: 640px;
-                height: 200px;
+                height: 175px;
             }
         </style>
     </head>
@@ -24,24 +29,28 @@
         </a>
 
         <h1>yamma-hl-api rollup browser example</h1>
-        <p>
+        <div class="section">
             <textarea
                 id="mmEditor"
                 aria-label="MM Editor"
                 spellcheck="false"
             ></textarea>
-        </p>
-        <p><button id="parseButton">Parse</button></p>
-        <p id="parseOutput"></p>
-        <p>
+            <div>
+                <button id="parseButton">Parse</button>
+                <span id="parseOutput"></span>
+            </div>
+        </div>
+
+        <div class="section">
             <textarea
                 id="mmpEditor"
                 aria-label="MMP Editor"
                 spellcheck="false"
             ></textarea>
-        </p>
-        <p><button id="unifyButton">Unify</button></p>
-        <p id="unifierOutput"></p>
-        <script type="module" src="index.js"></script>
+            <div>
+                <button id="unifyButton">Unify</button>
+                <span id="unifierOutput"></span>
+            </div>
+        </div>
     </body>
 </html>

@@ -10,21 +10,20 @@ const { unifierOutput } = getElementById('unifierOutput');
 
 const config: UnifierConfig = { mm: { singleThread: true } };
 
-let lastMM = '';
-let unifier = createUnifier(lastMM, config);
+let unifier = createUnifier('', config);
 
-const parse = () => {
+const parse = (): boolean => {
     try {
-        if (mmEditor.value !== lastMM) {
-            lastMM = mmEditor.value;
-            unifier = createUnifier(lastMM, config);
-        }
+        unifier = createUnifier(mmEditor.value, config);
+        return true;
     } catch (e) {
         if (e instanceof Error) {
             parseOutput.textContent = e.message;
         } else {
             parseOutput.textContent = 'Unknown error';
         }
+
+        return false;
     }
 };
 
@@ -40,18 +39,21 @@ fetch('ununified.mmp')
 
 unifyButton.onclick = async () => {
     try {
-        parse();
-        const result = await unifier.unify(mmpEditor.value);
-        mmpEditor.value = result.text;
+        const parseResult = parse();
 
-        // Re-parse the mmp file because we need the diagnostics from after unification rather than before
-        const mmpParser = parseMmp(result.text, unifier.mmParser);
+        if (parseResult == true) {
+            const result = await unifier.unify(mmpEditor.value);
+            mmpEditor.value = result.text;
 
-        unifierOutput.textContent = JSON.stringify(
-            mmpParser.diagnostics,
-            null,
-            4,
-        );
+            // Re-parse the mmp file because we need the diagnostics from after unification rather than before
+            // const mmpParser = parseMmp(result.text, unifier.mmParser);
+
+            // unifierOutput.textContent = JSON.stringify(
+            //     mmpParser.diagnostics,
+            //     null,
+            //     4,
+            // );
+        }
     } catch (e) {
         if (e instanceof Error) {
             unifierOutput.textContent = e.message;
