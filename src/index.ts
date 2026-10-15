@@ -15,6 +15,7 @@ let unifier = createUnifier('', config);
 const parse = (): boolean => {
     try {
         unifier = createUnifier(mmEditor.value, config);
+        parseOutput.textContent = 'Parse OK';
         return true;
     } catch (e) {
         if (e instanceof Error) {
@@ -29,13 +30,21 @@ const parse = (): boolean => {
 
 parseButton.onclick = parse;
 
-fetch('example.mm')
-    .then((response) => response.text())
-    .then((text) => (mmEditor.value = text));
+fetch('example.mm').then((response) => {
+    if (response.status >= 400) {
+        parseOutput.textContent = `${response.status} ${response.statusText}`;
+    } else {
+        response.text().then((text) => (mmEditor.value = text));
+    }
+});
 
-fetch('ununified.mmp')
-    .then((response) => response.text())
-    .then((text) => (mmpEditor.value = text));
+fetch('ununified.mmp').then((response) => {
+    if (response.status >= 400) {
+        unifierOutput.textContent = `${response.status} ${response.statusText}`;
+    } else {
+        response.text().then((text) => (mmpEditor.value = text));
+    }
+});
 
 unifyButton.onclick = async () => {
     try {
