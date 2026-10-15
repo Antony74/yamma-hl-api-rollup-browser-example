@@ -1,0 +1,8 @@
+$theorem th1
+
+*  Simple example, just the rule of Modus Ponens being applied
+
+1::            |- ( t + 0 ) = t
+2::            |- ( ( t + 0 ) = t -> ( ( t + 0 ) = t -> t = t ) )
+3::            |- ( ( t + 0 ) = t -> t = t )
+qed::          |- t = t
