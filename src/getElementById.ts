@@ -10,6 +10,6 @@ export function getElementById <K extends string>(id: K, nodeName?: 'TEXTAREA') 
     } else if (nodeName && elm.nodeName !== nodeName) {
         throw new Error(`Element ${id} is not of nodeName ${nodeName}, found ${elm.nodeName}`);
     } else {
-        return { [id]: elm } as Record<K, HTMLElement>;
+        return { [id]: elm };
     }
 };
