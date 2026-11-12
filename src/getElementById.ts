@@ -1,7 +1,7 @@
 // getElementById wrapper, with types and exceptions (including a return type to keep variable names in sync ids)
 
     export const getElementById = <T extends HTMLElement, K extends string>(
-        elementType: new (...args: unknown[]) => T,
+        elementType: new () => T,
         id: K,
     ): Record<K, T> => {
         const elm = document.getElementById(id);
