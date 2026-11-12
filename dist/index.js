@@ -10040,49 +10040,8 @@ __toESM(require_nearley());
 init_browser_shims();
 
 // yamma/server/src/mm/DiagnosticEventHandler.ts
-var import_vscode_languageserver5 = __toESM(require_main4());
+__toESM(require_main4());
 init_browser_shims();
-(class _DiagnosticEventHandler {
-  constructor(sink) {
-    // arrow function binds `this` automatically
-    this.formulaNonParsableEventHandler = (eventArgs) => {
-      const labeledStatement = eventArgs.labeledStatement;
-      const content = labeledStatement.Content;
-      const formula = labeledStatement.formula;
-      const symbolThatTriggeredParsingError = eventArgs.parseResult.parser.current;
-      let range2 = oneCharacterRange(content[formula.length - 1].range.end);
-      if (symbolThatTriggeredParsingError < formula.length)
-        range2 = content[symbolThatTriggeredParsingError].range;
-      const mmDiagnostic = {
-        severity: import_vscode_languageserver5.DiagnosticSeverity.Error,
-        message: `Formula in statement "${eventArgs.labeledStatement.Label}" is not parsable ` + eventArgs.parseResult.error?.message,
-        range: range2,
-        code: "FormulaNonParsable" /* formulaNonParsable */,
-        provableStatementLabel: eventArgs.labeledStatement.Label,
-        source: "yamma",
-        mmFilePath: eventArgs.labeledStatement.labelToken.filePath
-      };
-      const publishDiagnosticsParams = {
-        uri: pathToFileURL(eventArgs.labeledStatement.labelToken.filePath).href,
-        diagnostics: [mmDiagnostic]
-      };
-      this.sink.sendDiagnostics(publishDiagnosticsParams);
-    };
-    this.sink = sink;
-  }
-  static {
-    this._instance = null;
-  }
-  static getInstance(sink) {
-    if (!_DiagnosticEventHandler._instance) {
-      if (!sink) {
-        throw new Error("DiagnosticEventHandler not initialized: provide a sink on first call.");
-      }
-      _DiagnosticEventHandler._instance = new _DiagnosticEventHandler(sink);
-    }
-    return _DiagnosticEventHandler._instance;
-  }
-});
 
 // yamma/server/src/mm/TheoryLoader.ts
 (init_browser_shims(), __toCommonJS(browser_shims_exports));

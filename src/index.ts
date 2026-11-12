@@ -2,7 +2,7 @@ import { createUnifier, parseMmp, type UnifierConfig } from 'yamma-hl-api';
 import { getElementById } from './getElementById';
 import { getDiagnosticsString } from './getDiagnosticString';
 
-const { mmEditor } = getElementById(HTMLTextAreaElement, 'mmEditor')!;
+const { mmEditor } = getElementById(HTMLTextAreaElement, 'mmEditor');
 const { parseButton } = getElementById(HTMLElement, 'parseButton');
 const { parseOutput } = getElementById(HTMLElement, 'parseOutput');
 const { mmpEditor } = getElementById(HTMLTextAreaElement, 'mmpEditor');
