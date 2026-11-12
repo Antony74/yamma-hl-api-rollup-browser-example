@@ -2,12 +2,12 @@ import { createUnifier, parseMmp, type UnifierConfig } from 'yamma-hl-api';
 import { getElementById } from './getElementById';
 import { getDiagnosticsString } from './getDiagnosticString';
 
-const { mmEditor } = getElementById('mmEditor', 'TEXTAREA');
-const { parseButton } = getElementById('parseButton');
-const { parseOutput } = getElementById('parseOutput');
-const { mmpEditor } = getElementById('mmpEditor', 'TEXTAREA');
-const { unifyButton } = getElementById('unifyButton');
-const { unifierOutput } = getElementById('unifierOutput');
+const { mmEditor } = getElementById(HTMLTextAreaElement, 'mmEditor')!;
+const { parseButton } = getElementById(HTMLElement, 'parseButton');
+const { parseOutput } = getElementById(HTMLElement, 'parseOutput');
+const { mmpEditor } = getElementById(HTMLTextAreaElement, 'mmpEditor');
+const { unifyButton } = getElementById(HTMLElement, 'unifyButton');
+const { unifierOutput } = getElementById(HTMLElement, 'unifierOutput');
 
 fetch('example.mm').then((response) => {
     if (response.status >= 400) {
