@@ -10040,8 +10040,49 @@ __toESM(require_nearley());
 init_browser_shims();
 
 // yamma/server/src/mm/DiagnosticEventHandler.ts
-__toESM(require_main4());
+var import_vscode_languageserver5 = __toESM(require_main4());
 init_browser_shims();
+(class _DiagnosticEventHandler {
+  constructor(sink) {
+    // arrow function binds `this` automatically
+    this.formulaNonParsableEventHandler = (eventArgs) => {
+      const labeledStatement = eventArgs.labeledStatement;
+      const content = labeledStatement.Content;
+      const formula = labeledStatement.formula;
+      const symbolThatTriggeredParsingError = eventArgs.parseResult.parser.current;
+      let range2 = oneCharacterRange(content[formula.length - 1].range.end);
+      if (symbolThatTriggeredParsingError < formula.length)
+        range2 = content[symbolThatTriggeredParsingError].range;
+      const mmDiagnostic = {
+        severity: import_vscode_languageserver5.DiagnosticSeverity.Error,
+        message: `Formula in statement "${eventArgs.labeledStatement.Label}" is not parsable ` + eventArgs.parseResult.error?.message,
+        range: range2,
+        code: "FormulaNonParsable" /* formulaNonParsable */,
+        provableStatementLabel: eventArgs.labeledStatement.Label,
+        source: "yamma",
+        mmFilePath: eventArgs.labeledStatement.labelToken.filePath
+      };
+      const publishDiagnosticsParams = {
+        uri: pathToFileURL(eventArgs.labeledStatement.labelToken.filePath).href,
+        diagnostics: [mmDiagnostic]
+      };
+      this.sink.sendDiagnostics(publishDiagnosticsParams);
+    };
+    this.sink = sink;
+  }
+  static {
+    this._instance = null;
+  }
+  static getInstance(sink) {
+    if (!_DiagnosticEventHandler._instance) {
+      if (!sink) {
+        throw new Error("DiagnosticEventHandler not initialized: provide a sink on first call.");
+      }
+      _DiagnosticEventHandler._instance = new _DiagnosticEventHandler(sink);
+    }
+    return _DiagnosticEventHandler._instance;
+  }
+});
 
 // yamma/server/src/mm/TheoryLoader.ts
 (init_browser_shims(), __toCommonJS(browser_shims_exports));
@@ -16032,11 +16073,24 @@ var parseMmp = (mmpData, mmParser, config) => {
 // src/browser.ts
 defaultConfig.mm.singleThread = true;
 
-// getElementById wrapper, with types and exceptions (including a return type to keep variable names in sync ids)
+/**
+ * Gets an element by ID and verifies that it has the expected type.
+ *
+ * It returns an object containing the element, keyed by its ID.  This
+ * is an opinionated guard to help keep variable names aligned to IDs.
+ *
+ * @typeParam K - The element ID, used as the key in the returned record.
+ * @typeParam V - The expected element type.
+ * @param elementType - The element constructor used to validate the result.
+ * @param id - The ID of the element to retrieve.
+ * @returns An object containing the element, keyed by its ID.
+ * @throws {@link Error} If no element with the ID exists or it has an unexpected type.
+ */
 const getElementById = (elementType, id) => {
-    const elm = document.getElementById(id);
+    const elm = document.querySelector(`#${id}`);
     if (elm instanceof elementType) {
         return { [id]: elm };
+        // That 'as' is annoying https://github.com/microsoft/TypeScript/issues/13948
     }
     else if (elm === null) {
         throw new Error(`Element ${id} not found`);

@@ -3,10 +3,6 @@
  * 
  * It returns an object containing the element, keyed by its ID.  This
  * is an opinionated guard to help keep variable names aligned to IDs.
- * 
- * Note that document.getElementId may also return an SVG element and this
- * if not properly typed
- * https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/2020
  *
  * @typeParam K - The element ID, used as the key in the returned record.
  * @typeParam V - The expected element type.
@@ -15,11 +11,11 @@
  * @returns An object containing the element, keyed by its ID.
  * @throws {@link Error} If no element with the ID exists or it has an unexpected type.
  */
-export const getElementById = <K extends string, V extends HTMLElement>(
+export const getElementById = <K extends string, V extends Element>(
     elementType: { new (): V },
     id: K,
 ): Record<K, V> => {
-    const elm = document.getElementById(id);
+    const elm = document.querySelector(`#${id}`);
 
     if (elm instanceof elementType) {
         return { [id]: elm } as Record<K, V>;
